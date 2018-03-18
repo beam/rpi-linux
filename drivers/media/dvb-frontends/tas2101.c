@@ -25,7 +25,7 @@
 #include <linux/init.h>
 #include <linux/i2c-mux.h>
 
-#include <media/dvb_frontend.h>
+#include <dvb_frontend.h>
 
 #include "tas2101.h"
 #include "tas2101_priv.h"
@@ -296,30 +296,30 @@ static int tas2101_read_status(struct dvb_frontend *fe, enum fe_status *status)
 	return ret;
 }
 
-static void tas2101_spi_read(struct dvb_frontend *fe, struct ecp3_info *ecp3inf)
-{
-
-	struct tas2101_priv *priv = fe->demodulator_priv;
-	struct i2c_adapter *adapter = priv->i2c;
-	if (priv->cfg->read_properties)
-		priv->cfg->read_properties(adapter,ecp3inf->reg, &(ecp3inf->data));
-	return;
-}
-static void tas2101_spi_write(struct dvb_frontend *fe,struct ecp3_info *ecp3inf)
-{
-	struct tas2101_priv *priv = fe->demodulator_priv;
-	struct i2c_adapter *adapter = priv->i2c;
-	if (priv->cfg->write_properties)
-		priv->cfg->write_properties(adapter,ecp3inf->reg, ecp3inf->data);
-	return ;
-}
+// static void tas2101_spi_read(struct dvb_frontend *fe, struct ecp3_info *ecp3inf)
+// {
+//
+// 	struct tas2101_priv *priv = fe->demodulator_priv;
+// 	struct i2c_adapter *adapter = priv->i2c;
+// 	if (priv->cfg->read_properties)
+// 		priv->cfg->read_properties(adapter,ecp3inf->reg, &(ecp3inf->data));
+// 	return;
+// }
+// static void tas2101_spi_write(struct dvb_frontend *fe,struct ecp3_info *ecp3inf)
+// {
+// 	struct tas2101_priv *priv = fe->demodulator_priv;
+// 	struct i2c_adapter *adapter = priv->i2c;
+// 	if (priv->cfg->write_properties)
+// 		priv->cfg->write_properties(adapter,ecp3inf->reg, ecp3inf->data);
+// 	return ;
+// }
 
 static int tas2101_set_voltage(struct dvb_frontend *fe,
 	enum fe_sec_voltage voltage)
 {
 	struct tas2101_priv *priv = fe->demodulator_priv;
 	int ret = 0;
-	
+
 	dev_dbg(&priv->i2c->dev, "%s() %s\n", __func__,
 		voltage == SEC_VOLTAGE_13 ? "SEC_VOLTAGE_13" :
 		voltage == SEC_VOLTAGE_18 ? "SEC_VOLTAGE_18" :
@@ -906,8 +906,8 @@ static struct dvb_frontend_ops tas2101_ops = {
 	.set_frontend = tas2101_set_frontend,
 	.get_frontend = tas2101_get_frontend,
 
-	.spi_read			= tas2101_spi_read,
-	.spi_write			= tas2101_spi_write,
+	// .spi_read			= tas2101_spi_read,
+	// .spi_write			= tas2101_spi_write,
 
 
 };
@@ -916,4 +916,3 @@ MODULE_DESCRIPTION("DVB Frontend module for Tmax TAS2101");
 MODULE_AUTHOR("Luis Alves (ljalvs@gmail.com)");
 MODULE_LICENSE("GPL");
 MODULE_VERSION("1.0");
-
