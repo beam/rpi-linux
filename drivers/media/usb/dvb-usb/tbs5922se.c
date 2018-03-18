@@ -11,7 +11,7 @@
 * see Documentation/dvb/README.dvb-usb for more information
 */
 
-/* 
+/*
 * History:
 *
 * December 2011 Konstantin Dimitrov <kosio.dimitrov@gmail.com>
@@ -166,7 +166,7 @@ static int tbs5922se_read_mac_address(struct dvb_usb_device *d, u8 mac[6])
 				eepromline[i % 16] = buf[0];
 				eeprom[i] = buf[0];
 			}
-			
+
 			if ((i % 16) == 15) {
 				deb_xfer("%02x: ", i - 15);
 				debug_dump(eepromline, 16, deb_xfer);
@@ -219,10 +219,10 @@ static int tbs5922se_frontend_attach(struct dvb_usb_adapter *d)
 	buf[1] = 1;
 	tbs5922se_op_rw(u->udev, 0x8a, 0, 0, buf, 2, TBS5922SE_WRITE_MSG);
 
-	buf[0] = 6;     
+	buf[0] = 6;
 	buf[1] = 1;
 	tbs5922se_op_rw(u->udev, 0x8a, 0, 0, buf, 2, TBS5922SE_WRITE_MSG);
-	
+
 	strlcpy(d->fe_adap->fe->ops.info.name,u->props.devices[0].name,52);
 
 	return 0;
@@ -243,7 +243,7 @@ static int tbs5922se_rc_query(struct dvb_usb_device *d)
 	if (d->props.i2c_algo->master_xfer(&d->i2c_adap, &msg, 1) == 1) {
 		if (key[1] != 0xff) {
 			deb_xfer("RC code: 0x%02X !\n", key[1]);
-			rc_keydown(d->rc_dev, RC_PROTO_UNKNOWN, key[1],
+			rc_keydown(d->rc_dev, RC_TYPE_UNKNOWN, key[1],
 				   0);
 		}
 	}
@@ -331,7 +331,7 @@ static struct dvb_usb_device_properties tbs5922se_properties = {
 		.rc_interval = 150,
 		.rc_codes = RC_MAP_TBS_NEC,
 		.module_name = KBUILD_MODNAME,
-		.allowed_protos   = RC_PROTO_BIT_NEC,
+		.allowed_protos   = RC_BIT_NEC,
 		.rc_query = tbs5922se_rc_query,
 	},
 
